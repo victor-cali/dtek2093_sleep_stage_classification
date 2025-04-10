@@ -1,4 +1,4 @@
-name: dtek2093_sleep_stage_classification
+name: sleep_stage_classification_env
 channels:
   - conda-forge
 dependencies:
