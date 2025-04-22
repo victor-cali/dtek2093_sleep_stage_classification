@@ -14,9 +14,13 @@ dependencies:
   - numpy
   - pandas
   - scikit-learn
+  - scipy
+  - mne
   - black
   - flake8
   - isort
+  - seaborn
+  - ipykernel
   - pip:
     - python-dotenv
     - mkdocs
