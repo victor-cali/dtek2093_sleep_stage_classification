@@ -39,15 +39,25 @@ def extract_features(signal: np.ndarray, fs: float) -> dict:
     feat.update(extract_freq_features(psd, freqs))
     return feat
 
-def extract_multiband_features(signal: np.ndarray, fs: float) -> dict:
+def extract_multiband_features(signal: np.ndarray, fs: float, signal_column : str) -> dict:
     # define your five bands (Hz)
-    bands = {
-        'b1': (0.5, 2.0),
-        'b2': (2.0, 4.0),
-        'b3': (4.0, 7.0),
-        'b4': (7.0, 10.0),
-        'b5': (10.0, 15.0),
-    }
+    if signal_column == 'eog':
+        bands = {
+            'b1': (0.5, 2.0),
+            'b2': (2.0, 4.0),
+            'b3': (4.0, 7.0),
+            'b4': (7.0, 10.0),
+            'b5': (10.0, 15.0),
+        }
+    elif signal_column == 'emg':
+        # EMG bands within 20–99 Hz (five equal-width bands)
+        bands= {
+            'b1': (20.0, 36.0),
+            'b2': (36.0, 52.0),
+            'b3': (52.0, 68.0),
+            'b4': (68.0, 84.0),
+            'b5': (84.0, 99.0),
+        }
     all_feat = {}
     # first, global features
     all_feat.update(extract_features(signal, fs))
@@ -69,7 +79,7 @@ def extract_features_and_labels(df: pd.DataFrame,
     for file_id, grp in df.groupby('file'):
         sig = grp[signal_column].values
         if multiband:
-            feats.append(extract_multiband_features(sig, fs))
+            feats.append(extract_multiband_features(sig, fs, signal_column))
         else:
             feats.append(extract_features(sig, fs))
         labels.append(grp[label_column].iat[0])
