@@ -1,4 +1,4 @@
-name: sleep_stage_classification_env
+name: rapids-25.04
 channels:
   - conda-forge
 dependencies:
@@ -21,6 +21,8 @@ dependencies:
   - isort
   - seaborn
   - ipykernel
+  - mne
+  - mne-features
   - pip:
     - python-dotenv
     - mkdocs
